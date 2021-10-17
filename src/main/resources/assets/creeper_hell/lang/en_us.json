@@ -1,0 +1,32 @@
+{
+  "entity.creeper_hell.nether_creeper": "Hellfire Creeper",
+  "entity.creeper_hell.desert_creeper": "Dune Creeper",
+  "entity.creeper_hell.snow_creeper": "Glacier Creeper",
+  "entity.creeper_hell.baby_creeper": "Baby Creeper",
+  "entity.creeper_hell.stone_creeper": "Cavern Creeper",
+  "entity.creeper_hell.soul_creeper": "Soul Creeper",
+  "entity.creeper_hell.basalt_creeper": "Magma Creeper",
+  "entity.creeper_hell.wither_creeper": "Wither Creeper",
+  "entity.creeper_hell.regular_creeper": "Creeper",
+  "entity.creeper_hell.end_creeper": "End Creeper",
+  "entity.creeper_hell.stronghold_creeper": "Stronghold Creeper",
+  "entity.creeper_hell.water_creeper": "Kelp Creeper",
+  "entity.creeper_hell.warped_creeper": "Warped Creeper",
+
+  "advancements.adventure.kill_all_creep.title": "Counter-Terrorists Win",
+  "advancements.adventure.kill_all_creep.description": "Kill every type of creeper",
+
+  "item.creeper_hell.nether_creeper_spawn_egg": "Hellfire Creeper Spawn Egg",
+  "item.creeper_hell.desert_creeper_spawn_egg": "Dune Creeper Spawn Egg",
+  "item.creeper_hell.snow_creeper_spawn_egg": "Glacier Creeper Spawn Egg",
+  "item.creeper_hell.regular_creeper_spawn_egg": "Regular Creeper Spawn Egg",
+  "item.creeper_hell.baby_creeper_spawn_egg": "Baby Creeper Spawn Egg",
+  "item.creeper_hell.stone_creeper_spawn_egg": "Cavern Creeper Spawn Egg",
+  "item.creeper_hell.soul_creeper_spawn_egg": "Soul Creeper Spawn Egg",
+  "item.creeper_hell.basalt_creeper_spawn_egg": "Magma Creeper Spawn Egg",
+  "item.creeper_hell.wither_creeper_spawn_egg": "Wither Creeper Spawn Egg",
+  "item.creeper_hell.end_creeper_spawn_egg": "End Creeper Spawn Egg",
+  "item.creeper_hell.stronghold_creeper_spawn_egg": "Stronghold Creeper Spawn Egg",
+  "item.creeper_hell.water_creeper_spawn_egg": "Kelp Creeper Spawn Egg",
+  "item.creeper_hell.warped_creeper_spawn_egg": "Warped Creeper Spawn Egg"
+}

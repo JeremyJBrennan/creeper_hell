@@ -26,6 +26,7 @@ public class StrongholdCreeper extends AbstractCreeper {
 
     public StrongholdCreeper(EntityType<? extends StrongholdCreeper> type, Level worldIn) {
         super(type, worldIn, 30, 4, false);
+        this.xpReward = 20;
     }
 
     public boolean causeFallDamage(float p_147187_, float p_147188_, DamageSource p_147189_) {
@@ -45,16 +46,10 @@ public class StrongholdCreeper extends AbstractCreeper {
 
     public void explodeCreeper() {
         if (!this.level.isClientSide) {
-            float beforehealth = this.getHealth();
             Explosion.BlockInteraction explosion$blockinteraction = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level, this) ? Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.NONE;
             float f = this.isPowered() ? 2.0F : 1.0F;
             this.dead = true;
             this.level.explode(this, this.getX(), this.getY(), this.getZ(), (float)this.explosionRadius * f, this.fireOnExplosion, explosion$blockinteraction);
-
-
-
-            this.spawnLingeringCloud();
-            this.setHealth(beforehealth);
             this.setDeltaMovement(this.getDeltaMovement().add(this.random.nextFloat()*2-1,this.random.nextFloat(),this.random.nextFloat()*2-1));
         }
     }
@@ -62,5 +57,12 @@ public class StrongholdCreeper extends AbstractCreeper {
     public static boolean spawnStrongholdPredicate(EntityType<? extends StrongholdCreeper> type, ServerLevelAccessor serverLevelAccessor, MobSpawnType mobSpawnType, BlockPos pos, Random random) {
         BlockState blockstate = serverLevelAccessor.getBlockState(pos.below());
         return AbstractCreeper.spawnPredicate(type, serverLevelAccessor, mobSpawnType, pos, random) && (blockstate.is(Blocks.STONE_BRICKS) || blockstate.is(Blocks.CRACKED_STONE_BRICKS) || blockstate.is(Blocks.MOSSY_STONE_BRICKS)) && (pos.getY() <= 56);
+    }
+
+    public boolean hurt(DamageSource damageSource, float amount) {
+        if(damageSource.isExplosion()){
+            return false;
+        }
+        return super.hurt(damageSource, amount);
     }
 }

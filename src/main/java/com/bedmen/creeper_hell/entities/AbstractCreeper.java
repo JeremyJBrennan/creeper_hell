@@ -11,6 +11,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionHand;
@@ -29,18 +30,22 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Cat;
 import net.minecraft.world.entity.animal.Ocelot;
 import net.minecraft.world.entity.animal.goat.Goat;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.gameevent.GameEvent;
 
 import java.util.Collection;
 import java.util.Random;
 
-public abstract class AbstractCreeper extends PathfinderMob implements PowerableMob {
+public abstract class AbstractCreeper extends PathfinderMob implements PowerableMob, Enemy {
     private static final EntityDataAccessor<Integer> DATA_SWELL_DIR = SynchedEntityData.defineId(AbstractCreeper.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> DATA_IS_POWERED = SynchedEntityData.defineId(AbstractCreeper.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DATA_IS_IGNITED = SynchedEntityData.defineId(AbstractCreeper.class, EntityDataSerializers.BOOLEAN);
@@ -57,6 +62,7 @@ public abstract class AbstractCreeper extends PathfinderMob implements Powerable
         this.maxSwell = fuseTime;
         this.explosionRadius = explosionRadius;
         this.fireOnExplosion = fireOnExplosion;
+        this.xpReward = 5;
     }
 
     protected void registerGoals() {
@@ -154,6 +160,10 @@ public abstract class AbstractCreeper extends PathfinderMob implements Powerable
         }
     }
 
+    public SoundSource getSoundSource() {
+        return SoundSource.HOSTILE;
+    }
+
     protected SoundEvent getHurtSound(DamageSource p_32309_) {
         return SoundEvents.CREEPER_HURT;
     }
@@ -162,17 +172,24 @@ public abstract class AbstractCreeper extends PathfinderMob implements Powerable
         return SoundEvents.CREEPER_DEATH;
     }
 
-    protected void dropCustomDeathLoot(DamageSource p_32292_, int p_32293_, boolean p_32294_) {
-        super.dropCustomDeathLoot(p_32292_, p_32293_, p_32294_);
-        Entity entity = p_32292_.getEntity();
-        if (entity != this && entity instanceof AbstractCreeper) {
-            AbstractCreeper AbstractCreeper = (AbstractCreeper)entity;
-            if (AbstractCreeper.canDropMobsSkull()) {
-                AbstractCreeper.increaseDroppedSkulls();
-                this.spawnAtLocation(Items.CREEPER_HEAD);
-            }
-        }
+    protected SoundEvent getSwimSound() {
+        return SoundEvents.HOSTILE_SWIM;
+    }
 
+    protected SoundEvent getSwimSplashSound() {
+        return SoundEvents.HOSTILE_SPLASH;
+    }
+
+    protected SoundEvent getFallDamageSound(int p_33041_) {
+        return p_33041_ > 4 ? SoundEvents.HOSTILE_BIG_FALL : SoundEvents.HOSTILE_SMALL_FALL;
+    }
+
+    protected boolean shouldDropExperience() {
+        return true;
+    }
+
+    protected boolean shouldDropLoot() {
+        return true;
     }
 
     public boolean doHurtTarget(Entity p_32281_) {
@@ -277,5 +294,9 @@ public abstract class AbstractCreeper extends PathfinderMob implements Powerable
 
     public static boolean spawnUndergroundPredicate(EntityType<? extends AbstractCreeper> type, ServerLevelAccessor serverLevelAccessor, MobSpawnType mobSpawnType, BlockPos pos, Random random) {
         return spawnPredicate(type, serverLevelAccessor, mobSpawnType, pos, random) && pos.getY() < 56;
+    }
+
+    public static boolean checkMonsterSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor serverLevelAccessor, MobSpawnType mobSpawnType, BlockPos pos, Random random) {
+        return serverLevelAccessor.getDifficulty() != Difficulty.PEACEFUL && checkMobSpawnRules(type, serverLevelAccessor, mobSpawnType, pos, random);
     }
 }

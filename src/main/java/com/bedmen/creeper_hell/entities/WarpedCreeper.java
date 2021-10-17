@@ -42,7 +42,6 @@ public class WarpedCreeper extends AbstractCreeper {
                 }
             }
             this.level.explode(this, x, y, z, (float)this.explosionRadius * f, this.fireOnExplosion, explosion$blockinteraction);
-            this.spawnLingeringCloud();
         }
     }
 

@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 @Mod.EventBusSubscriber(modid = CreeperHell.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CreeperHell
 {
-    private static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "creeper_hell";
 
     public CreeperHell() {
